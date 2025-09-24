@@ -1,0 +1,202 @@
+{
+  "tap_name": "Segment",
+  "required_config_keys": ["access_token", "start_date"],
+  "page_size": 100,
+  "next_page_key": "next",
+  "pagination_key": "page",
+  "headers": {"Accept": "application/json"},
+  "params": {},
+  "auth_header_key": "Authorization",
+  "auth_config_key": "access_token",
+  "base_url": "https://api.segmentapis.com/",
+  "streams": [
+    {
+      "name": "sources",
+      "key_properties": ["id"],
+      "replication_method": "FULL_TABLE",
+      "replication_keys": null,
+      "path": "sources",
+      "data_key": "sources",
+      "parent": "",
+      "doc_link": "https://docs.segmentapis.com/tag/Sources/#operation/listSources"
+    },
+    {
+      "name": "destinations",
+      "key_properties": ["id"],
+      "replication_method": "FULL_TABLE",
+      "replication_keys": null,
+      "path": "destinations",
+      "data_key": "destinations",
+      "parent": "",
+      "doc_link": "https://docs.segmentapis.com/tag/Destinations/#operation/listDestinations"
+    },
+    {
+      "name": "warehouses",
+      "key_properties": ["id"],
+      "replication_method": "FULL_TABLE",
+      "replication_keys": null,
+      "path": "warehouses",
+      "data_key": "warehouses",
+      "parent": "",
+      "doc_link": "https://docs.segmentapis.com/tag/Warehouses/#operation/listWarehouses"
+    },
+    {
+      "name": "source_connected_destinations",
+      "key_properties": ["sourceId"],
+      "replication_method": "FULL_TABLE",
+      "replication_keys": null,
+      "path": "sources/{sourceId}/connected-destinations",
+      "data_key": "destinations",
+      "parent": "sources",
+      "doc_link": "https://docs.segmentapis.com/tag/Sources/#operation/listConnectedDestinationsFromSource"
+    },
+    {
+      "name": "source_connected_warehouses",
+      "key_properties": ["sourceId"],
+      "replication_method": "FULL_TABLE",
+      "replication_keys": null,
+      "path": "sources/{sourceId}/connected-warehouses",
+      "data_key": "warehouses",
+      "parent": "sources",
+      "doc_link": "https://docs.segmentapis.com/tag/Sources/#operation/listConnectedWarehousesFromSource"
+    },
+    {
+      "name": "destination_subscriptions",
+      "key_properties": ["destinationId"],
+      "replication_method": "FULL_TABLE",
+      "replication_keys": null,
+      "path": "destinations/{destinationId}/subscriptions",
+      "data_key": "subscriptions",
+      "parent": "destinations",
+      "doc_link": "https://docs.segmentapis.com/tag/Destinations/#operation/listSubscriptionsFromDestination"
+    },
+    {
+      "name": "catalog_sources",
+      "key_properties": ["id"],
+      "replication_method": "FULL_TABLE",
+      "replication_keys": null,
+      "path": "catalog/sources",
+      "data_key": "sourcesCatalog",
+      "parent": "",
+      "doc_link": "https://docs.segmentapis.com/tag/Catalog/#operation/getSourcesCatalog"
+    },
+    {
+      "name": "catalog_destinations",
+      "key_properties": ["id"],
+      "replication_method": "FULL_TABLE",
+      "replication_keys": null,
+      "path": "catalog/destinations",
+      "data_key": "destinationsCatalog",
+      "parent": "",
+      "doc_link": "https://docs.segmentapis.com/tag/Catalog/#operation/getDestinationsCatalog"
+    },
+    {
+      "name": "catalog_warehouses",
+      "key_properties": ["id"],
+      "replication_method": "FULL_TABLE",
+      "replication_keys": null,
+      "path": "catalog/warehouses",
+      "data_key": "warehousesCatalog",
+      "parent": "",
+      "doc_link": "https://docs.segmentapis.com/tag/Catalog/#operation/getWarehousesCatalog"
+    },
+    {
+      "name": "usage_api_calls_per_source_daily",
+      "key_properties": ["sourceId"],
+      "replication_method": "INCREMENTAL",
+      "replication_keys": ["timestamp"],
+      "path": "usage/api-calls/sources/daily",
+      "data_key": "dailyPerSourceAPICallsUsage",
+      "parent": "",
+      "doc_link": "https://docs.segmentapis.com/tag/API-Calls/#operation/getDailyPerSourceAPICallsUsage"
+    },
+    {
+      "name": "usage_api_calls_workspace_daily",
+      "key_properties": ["timestamp"],
+      "replication_method": "INCREMENTAL",
+      "replication_keys": ["timestamp"],
+      "path": "usage/api-calls/daily",
+      "data_key": "dailyWorkspaceAPICallsUsage",
+      "parent": "",
+      "doc_link": "https://docs.segmentapis.com/tag/API-Calls/#operation/getDailyPerWorkspaceAPICallsUsage"
+    },
+    {
+      "name": "usage_mtu_per_source_daily",
+      "key_properties": ["sourceId"],
+      "replication_method": "INCREMENTAL",
+      "replication_keys": ["timestamp"],
+      "path": "usage/mtu/sources/daily",
+      "data_key": "dailyPerSourceMTUUsage",
+      "parent": "",
+      "doc_link": "https://docs.segmentapis.com/tag/Monthly-Tracked-Users/#operation/getDailyPerSourceMTUUsage"
+    },
+    {
+      "name": "usage_mtu_workspace_daily",
+      "key_properties": ["timestamp"],
+      "replication_method": "INCREMENTAL",
+      "replication_keys": ["timestamp"],
+      "path": "usage/mtu/daily",
+      "data_key": "dailyWorkspaceMTUUsage",
+      "parent": "",
+      "doc_link": "https://docs.segmentapis.com/tag/Monthly-Tracked-Users/#operation/getDailyPerWorkspaceMTUUsage"
+    },
+    {
+      "name": "destination_delivery_metrics_summary",
+      "key_properties": ["destinationId"],
+      "replication_method": "INCREMENTAL",
+      "replication_keys": ["timestamp"],
+      "path": "destinations/{destinationId}/delivery-metrics",
+      "data_key": "deliveryMetricsSummary",
+      "parent": "destinations",
+      "doc_link": "https://docs.segmentapis.com/tag/Destinations/#operation/listDeliveryMetricsSummaryFromDestination"
+    },
+    {
+      "name": "audit_events",
+      "key_properties": ["id"],
+      "replication_method": "INCREMENTAL",
+      "replication_keys": ["timestamp"],
+      "path": "audit-events",
+      "data_key": "events",
+      "parent": "",
+      "doc_link": "https://docs.segmentapis.com/tag/Audit-Trail/#operation/listAuditEvents"
+    },
+    {
+      "name": "iam_users",
+      "key_properties": ["id"],
+      "replication_method": "FULL_TABLE",
+      "replication_keys": null,
+      "path": "users",
+      "data_key": "users",
+      "parent": "",
+      "doc_link": "https://docs.segmentapis.com/tag/IAM-Users/#operation/listUsers"
+    },
+    {
+      "name": "iam_groups",
+      "key_properties": ["id"],
+      "replication_method": "FULL_TABLE",
+      "replication_keys": null,
+      "path": "groups",
+      "data_key": "userGroups",
+      "parent": "",
+      "doc_link": "https://docs.segmentapis.com/tag/IAM-Groups/#operation/listUserGroups"
+    },
+    {
+      "name": "transformations",
+      "key_properties": ["id"],
+      "replication_method": "FULL_TABLE",
+      "replication_keys": null,
+      "path": "transformations",
+      "data_key": "transformations",
+      "parent": "",
+      "doc_link": "https://docs.segmentapis.com/tag/Transformations/#operation/listTransformations"
+    }
+  ],
+  "tap_tester_creds": {
+    "access_token": "TAP_SEGMENT_ACCESS_TOKEN"
+  },
+  "author": "Stitch",
+  "third_party_dependencies": [
+      "singer-python==6.1.1",
+      "requests==2.32.4"
+  ]
+}
