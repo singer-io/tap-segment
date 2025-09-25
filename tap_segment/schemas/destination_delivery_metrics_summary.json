@@ -1,1 +1,63 @@
-{}
+{
+    "type": "object",
+    "properties": {
+        "sourceId": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "destinationMetadataId": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "metrics": {
+            "type": [
+                "null",
+                "array"
+            ],
+            "items": {
+                "type": "object",
+                "properties": {
+                    "metricName": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "total": {
+                        "type": [
+                            "null",
+                            "integer"
+                        ]
+                    },
+                    "breakdown": {
+                        "type": [
+                            "null",
+                            "array"
+                        ],
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "metricName": {
+                                    "type": [
+                                        "null",
+                                        "string"
+                                    ]
+                                },
+                                "value": {
+                                    "type": [
+                                        "null",
+                                        "integer"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

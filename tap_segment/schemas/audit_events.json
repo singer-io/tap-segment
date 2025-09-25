@@ -1,1 +1,54 @@
-{}
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "timestamp": {
+            "type": [
+                "null",
+                "string"
+            ],
+            "format": "date-time"
+        },
+        "type": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "actor": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "actorEmail": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "resourceId": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "resourceType": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "resourceName": {
+            "type": [
+                "null",
+                "string"
+            ]
+        }
+    }
+}
