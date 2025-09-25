@@ -1,1 +1,18 @@
-{}
+{
+    "type": "object",
+    "properties": {
+        "apiCalls": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "timestamp": {
+            "type": [
+                "null",
+                "string"
+            ],
+            "format": "date-time"
+        }
+    }
+}

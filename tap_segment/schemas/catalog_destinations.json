@@ -1,1 +1,538 @@
-{}
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "name": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "description": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "slug": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "logos": {
+            "type": "object",
+            "properties": {
+                "default": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "mark": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "alt": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                }
+            }
+        },
+        "options": {
+            "type": [
+                "null",
+                "array"
+            ],
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "type": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "defaultValue": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "description": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "required": {
+                        "type": [
+                            "null",
+                            "boolean"
+                        ]
+                    },
+                    "label": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    }
+                }
+            }
+        },
+        "status": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "categories": {
+            "type": [
+                "null",
+                "array"
+            ],
+            "items": {
+                "type": [
+                    "null",
+                    "string"
+                ]
+            }
+        },
+        "website": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "components": {
+            "type": [
+                "null",
+                "array"
+            ],
+            "items": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "code": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "owner": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    }
+                }
+            }
+        },
+        "previousNames": {
+            "type": [
+                "null",
+                "array"
+            ],
+            "items": {
+                "type": [
+                    "null",
+                    "string"
+                ]
+            }
+        },
+        "supportedMethods": {
+            "type": "object",
+            "properties": {
+                "track": {
+                    "type": [
+                        "null",
+                        "boolean"
+                    ]
+                },
+                "pageview": {
+                    "type": [
+                        "null",
+                        "boolean"
+                    ]
+                },
+                "identify": {
+                    "type": [
+                        "null",
+                        "boolean"
+                    ]
+                },
+                "group": {
+                    "type": [
+                        "null",
+                        "boolean"
+                    ]
+                },
+                "alias": {
+                    "type": [
+                        "null",
+                        "boolean"
+                    ]
+                }
+            }
+        },
+        "supportedPlatforms": {
+            "type": "object",
+            "properties": {
+                "browser": {
+                    "type": [
+                        "null",
+                        "boolean"
+                    ]
+                },
+                "mobile": {
+                    "type": [
+                        "null",
+                        "boolean"
+                    ]
+                },
+                "server": {
+                    "type": [
+                        "null",
+                        "boolean"
+                    ]
+                },
+                "warehouse": {
+                    "type": [
+                        "null",
+                        "boolean"
+                    ]
+                },
+                "cloudAppObject": {
+                    "type": [
+                        "null",
+                        "boolean"
+                    ]
+                },
+                "linkedAudiences": {
+                    "type": [
+                        "null",
+                        "boolean"
+                    ]
+                }
+            }
+        },
+        "supportedFeatures": {
+            "type": "object",
+            "properties": {
+                "cloudModeInstances": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "deviceModeInstances": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "replay": {
+                    "type": [
+                        "null",
+                        "boolean"
+                    ]
+                },
+                "browserUnbundling": {
+                    "type": [
+                        "null",
+                        "boolean"
+                    ]
+                },
+                "browserUnbundlingPublic": {
+                    "type": [
+                        "null",
+                        "boolean"
+                    ]
+                }
+            }
+        },
+        "actions": {
+            "type": [
+                "null",
+                "array"
+            ],
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "slug": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "name": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "description": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "platform": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "hidden": {
+                        "type": [
+                            "null",
+                            "boolean"
+                        ]
+                    },
+                    "defaultTrigger": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "fields": {
+                        "type": [
+                            "null",
+                            "array"
+                        ],
+                        "items": {
+                            "type": [
+                                "object",
+                                "null"
+                            ],
+                            "properties": {
+                                "id": {
+                                    "type": [
+                                        "null",
+                                        "string"
+                                    ]
+                                },
+                                "sortOrder": {
+                                    "type": [
+                                        "null",
+                                        "integer"
+                                    ]
+                                },
+                                "fieldKey": {
+                                    "type": [
+                                        "null",
+                                        "string"
+                                    ]
+                                },
+                                "label": {
+                                    "type": [
+                                        "null",
+                                        "string"
+                                    ]
+                                },
+                                "type": {
+                                    "type": [
+                                        "null",
+                                        "string"
+                                    ]
+                                },
+                                "description": {
+                                    "type": [
+                                        "null",
+                                        "string"
+                                    ]
+                                },
+                                "placeholder": {
+                                    "type": [
+                                        "null",
+                                        "string"
+                                    ]
+                                },
+                                "defaultValue": {
+                                    "type": [
+                                        "null",
+                                        "string"
+                                    ]
+                                },
+                                "required": {
+                                    "type": [
+                                        "null",
+                                        "boolean"
+                                    ]
+                                },
+                                "multiple": {
+                                    "type": [
+                                        "null",
+                                        "boolean"
+                                    ]
+                                },
+                                "choices": {
+                                    "type": [
+                                        "null",
+                                        "string"
+                                    ]
+                                },
+                                "dynamic": {
+                                    "type": [
+                                        "null",
+                                        "boolean"
+                                    ]
+                                },
+                                "allowNull": {
+                                    "type": [
+                                        "null",
+                                        "boolean"
+                                    ]
+                                },
+                                "hidden": {
+                                    "type": [
+                                        "null",
+                                        "boolean"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "presets": {
+            "type": [
+                "null",
+                "array"
+            ],
+            "items": {
+                "type": [
+                    "object",
+                    "null"
+                ],
+                "properties": {
+                    "actionId": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "name": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "fields": {
+                        "type": [
+                            "null",
+                            "object"
+                        ]
+                    },
+                    "trigger": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    }
+                }
+            }
+        },
+        "contacts": {
+            "type": [
+                "null",
+                "array"
+            ],
+            "items": {
+                "type": [
+                    "object",
+                    "null"
+                ],
+                "properties": {
+                    "name": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "email": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "role": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "isPrimary": {
+                        "type": [
+                            "null",
+                            "boolean"
+                        ]
+                    }
+                }
+            }
+        },
+        "partnerOwned": {
+            "type": [
+                "null",
+                "boolean"
+            ]
+        },
+        "supportedRegions": {
+            "type": [
+                "array",
+                "null"
+            ],
+            "items": {
+                "type": [
+                    "string",
+                    "null"
+                ]
+            }
+        },
+        "regionEndpoints": {
+            "type": [
+                "array",
+                "null"
+            ],
+            "items": {
+                "type": [
+                    "string",
+                    "null"
+                ]
+            }
+        },
+        "multiInstanceSupportedVersion": {
+            "type": [
+                "string",
+                "null"
+            ]
+        }
+    }
+}
