@@ -7,5 +7,5 @@ class SourceConnectedWarehouses(FullTableStream):
     replication_keys = []
     data_key = "warehouses"
     path = "sources/{sourceId}/connected-warehouses"
-    path = "sources"
+    parent = "sources"
 

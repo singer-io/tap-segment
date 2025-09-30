@@ -1,1 +1,207 @@
-{}
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "slug": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "name": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "workspaceId": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "enabled": {
+            "type": [
+                "null",
+                "boolean"
+            ]
+        },
+        "writeKeys": {
+            "type": [
+                "null",
+                "array"
+            ],
+            "items": {
+                "type": [
+                    "null",
+                    "string"
+                ]
+            }
+        },
+        "metadata": {
+            "type": ["object", "null"],
+            "properties": {
+                "id": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "slug": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "name": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "categories": {
+                    "type": [
+                        "null",
+                        "array"
+                    ],
+                    "items": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    }
+                },
+                "description": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "logos": {
+                    "type": "object",
+                    "properties": {
+                        "default": {
+                            "type": [
+                                "null",
+                                "string"
+                            ]
+                        },
+                        "alt": {
+                            "type": [
+                                "null",
+                                "string"
+                            ]
+                        },
+                        "mark": {
+                            "type": [
+                                "null",
+                                "string"
+                            ]
+                        }
+                    }
+                },
+                "options": {
+                    "type": [
+                        "null",
+                        "array"
+                    ],
+                    "items": {
+                        "type": ["object", "null"],
+                        "properties": {
+                            "name": {
+                                "type": [
+                                    "null",
+                                    "string"
+                                ]
+                            },
+                            "type": {
+                                "type": [
+                                    "null",
+                                    "string"
+                                ]
+                            },
+                            "required": {
+                                "type": [
+                                    "null",
+                                    "boolean"
+                                ]
+                            },
+                            "description": {
+                                "type": [
+                                    "null",
+                                    "string"
+                                ]
+                            },
+                            "defaultValue": {
+                                "type": [
+                                    "null",
+                                    "string",
+                                    "number",
+                                    "boolean",
+                                    "object",
+                                    "array"
+                                ]
+                            },
+                            "label": {
+                                "type": [
+                                    "null",
+                                    "string"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "isCloudEventSource": {
+                    "type": [
+                        "null",
+                        "boolean"
+                    ]
+                },
+                "status": {
+                    "type": ["string", "null"]
+                },
+                "partnerOwned": {
+                     "type": ["boolean", "null"]
+                }
+            }
+        },
+        "settings": {
+            "type": "object",
+            "properties": {}
+        },
+        "labels": {
+            "type": [
+                "null",
+                "array"
+            ],
+            "items": {
+                "type": ["object", "null"],
+                "properties": {
+                    "key": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "value": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "description": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}

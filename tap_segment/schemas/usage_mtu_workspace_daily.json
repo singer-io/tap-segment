@@ -1,1 +1,48 @@
-{}
+{
+    "type": "object",
+    "properties": {
+        "periodStart": {
+            "type": [
+                "null",
+                "integer"
+            ]
+        },
+        "periodEnd": {
+            "type": [
+                "null",
+                "integer"
+            ]
+        },
+        "anonymous": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "anonymousIdentified": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "identified": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "neverIdentified": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "timestamp": {
+            "type": [
+                "null",
+                "string"
+            ],
+            "format": "date-time"
+        }
+    }
+}

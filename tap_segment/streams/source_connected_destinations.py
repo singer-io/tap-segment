@@ -7,5 +7,5 @@ class SourceConnectedDestinations(FullTableStream):
     replication_keys = []
     data_key = "destinations"
     path = "sources/{sourceId}/connected-destinations"
-    path = "sources"
+    parent = "sources"
 

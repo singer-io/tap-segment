@@ -7,5 +7,5 @@ class DestinationSubscriptions(FullTableStream):
     replication_keys = []
     data_key = "subscriptions"
     path = "destinations/{destinationId}/subscriptions"
-    path = "destinations"
+    parent = "destinations"
 
