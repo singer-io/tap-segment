@@ -142,9 +142,9 @@
     },
     {
       "name": "destination_delivery_metrics_summary",
-      "key_properties": ["destinationId"],
-      "replication_method": "INCREMENTAL",
-      "replication_keys": ["timestamp"],
+      "key_properties": ["sourceId"],
+      "replication_method": "FULL_TABLE",
+      "replication_keys": [],
       "path": "destinations/{destinationId}/delivery-metrics",
       "data_key": "deliveryMetricsSummary",
       "parent": "destinations",
