@@ -1,1 +1,79 @@
-{}
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "name": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "actionId": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "actionSlug": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "destinationId": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "modelId": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "enabled": {
+            "type": [
+                "null",
+                "boolean"
+            ]
+        },
+        "trigger": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "settings": {
+            "type": [
+                "object",
+                "null"
+            ]
+        },
+        "reverseETLSchedule": {
+            "type": [
+                "object",
+                "null"
+            ],
+            "properties": {
+                "strategy": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "config": {
+                    "type": [
+                        "null",
+                        "object"
+                    ]
+                }
+            }
+        }
+    }
+}

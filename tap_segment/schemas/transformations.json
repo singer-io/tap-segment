@@ -1,1 +1,172 @@
-{}
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "name": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "sourceId": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "destinationMetadataId": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "enabled": {
+            "type": [
+                "boolean",
+                "null"
+            ]
+        },
+        "if": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "drop": {
+            "type": [
+                "boolean",
+                "null"
+            ]
+        },
+        "newEventName": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "propertyRenames": {
+            "type": [
+                "array",
+                "null"
+            ],
+            "items": {
+                "type": "object",
+                "properties": {
+                    "oldName": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "newName": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    }
+                }
+            }
+        },
+        "propertyValueTransformations": {
+            "type": [
+                "array",
+                "null"
+            ],
+            "items": {
+                "type": "object",
+                "properties": {
+                    "propertyPaths": {
+                        "type": "array",
+                        "items": {
+                            "type": [
+                                "string",
+                                "null"
+                            ]
+                        }
+                    },
+                    "propertyValue": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    }
+                }
+            }
+        },
+        "fqlDefinedProperties": {
+            "type": [
+                "array",
+                "null"
+            ],
+            "items": {
+                "type": "object",
+                "properties": {
+                    "fql": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "propertyName": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    }
+                }
+            }
+        },
+        "allowProperties": {
+            "type": [
+                "array",
+                "null"
+            ],
+            "items": {
+                "type": [
+                    "string",
+                    "null"
+                ]
+            }
+        },
+        "hashPropertiesConfiguration": {
+            "type": [
+                "object",
+                "null"
+            ],
+            "properties": {
+                "algorithm": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "encoding": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "paths": {
+                    "type": "array",
+                    "items": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}
