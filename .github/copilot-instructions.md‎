@@ -59,7 +59,7 @@ Prefer explicit schemas:
 
 - All files under schemas/*.json must follow the JSON Schema standard.
 - Any fields named created_time, modified_time, ending in _time or ending in _date must use the date-time format.
-- Any fields looks like date-time field, give suggestion to validate the fields should have date-time format.
+- Any fields look like date-time field, give suggestion to validate the fields should have date-time format.
 - Avoid using additionalProperties at the root level. It's allowed in nested fields only.
 
 Example:
