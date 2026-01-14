@@ -1,5 +1,6 @@
 from tap_segment.streams.abstracts import FullTableStream
 
+
 class Sources(FullTableStream):
     tap_stream_id = "sources"
     key_properties = ["id"]
@@ -7,4 +8,4 @@ class Sources(FullTableStream):
     replication_keys = []
     data_key = "sources"
     path = "sources"
-
+    children = ["source_connected_destinations", "source_connected_warehouses"]

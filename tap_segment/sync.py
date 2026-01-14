@@ -1,5 +1,6 @@
 import singer
 from typing import Dict
+
 from tap_segment.streams import STREAMS
 from tap_segment.client import Client
 
@@ -64,4 +65,3 @@ def sync(client: Client, config: Dict, catalog: singer.Catalog, state) -> None:
                     stream_name, total_records
                 )
             )
-

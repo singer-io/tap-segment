@@ -126,12 +126,12 @@ This tap:
 - Primary keys: ['id']
 - Replication strategy: INCREMENTAL
 
-**[iam_users](https://docs.segmentapis.com/tag/IAM-Users/#operation/listUsers)**
+**[users](https://docs.segmentapis.com/tag/IAM-Users/#operation/listUsers)**
 - Data Key = users
 - Primary keys: ['id']
 - Replication strategy: FULL_TABLE
 
-**[iam_groups](https://docs.segmentapis.com/tag/IAM-Groups/#operation/listUserGroups)**
+**[groups](https://docs.segmentapis.com/tag/IAM-Groups/#operation/listUserGroups)**
 - Data Key = userGroups
 - Primary keys: ['id']
 - Replication strategy: FULL_TABLE

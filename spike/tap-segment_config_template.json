@@ -1,13 +1,13 @@
 {
   "tap_name": "Segment",
-  "required_config_keys": ["access_token", "start_date"],
+  "required_config_keys": ["api_token", "start_date"],
   "page_size": 100,
   "next_page_key": "next",
   "pagination_key": "page",
   "headers": {"Accept": "application/json"},
   "params": {},
   "auth_header_key": "Authorization",
-  "auth_config_key": "access_token",
+  "auth_config_key": "api_token",
   "base_url": "https://api.segmentapis.com/",
   "streams": [
     {
@@ -18,6 +18,7 @@
       "path": "sources",
       "data_key": "sources",
       "parent": "",
+      "children": ["source_connected_destinations", "source_connected_warehouses"],
       "doc_link": "https://docs.segmentapis.com/tag/Sources/#operation/listSources"
     },
     {
@@ -28,6 +29,7 @@
       "path": "destinations",
       "data_key": "destinations",
       "parent": "",
+      "children": ["destination_delivery_metrics_summary", "destination_subscriptions"],
       "doc_link": "https://docs.segmentapis.com/tag/Destinations/#operation/listDestinations"
     },
     {
@@ -161,7 +163,7 @@
       "doc_link": "https://docs.segmentapis.com/tag/Audit-Trail/#operation/listAuditEvents"
     },
     {
-      "name": "iam_users",
+      "name": "users",
       "key_properties": ["id"],
       "replication_method": "FULL_TABLE",
       "replication_keys": null,
@@ -171,7 +173,7 @@
       "doc_link": "https://docs.segmentapis.com/tag/IAM-Users/#operation/listUsers"
     },
     {
-      "name": "iam_groups",
+      "name": "groups",
       "key_properties": ["id"],
       "replication_method": "FULL_TABLE",
       "replication_keys": null,
@@ -192,11 +194,11 @@
     }
   ],
   "tap_tester_creds": {
-    "access_token": "TAP_SEGMENT_ACCESS_TOKEN"
+    "access_token": "TAP_SEGMENT_API_TOKEN"
   },
   "author": "Stitch",
   "third_party_dependencies": [
-      "singer-python==6.1.1",
-      "requests==2.32.4"
+      "singer-python==6.3.0",
+      "requests==2.32.5"
   ]
 }

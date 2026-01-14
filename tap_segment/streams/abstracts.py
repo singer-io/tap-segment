@@ -30,12 +30,13 @@ class BaseStream(ABC):
     path = ""
     page_size = 100
     next_page_key = "next"
-    headers = {'Accept': 'application/json'}
+    headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
     children = []
     parent = ""
     data_key = ""
     parent_bookmark_key = ""
-    http_method = "POST"
+    http_method = "GET"
+    bookmark_value = None
 
     def __init__(self, client=None, catalog=None) -> None:
         self.client = client
@@ -99,9 +100,12 @@ class BaseStream(ABC):
 
     def get_records(self) -> Iterator:
         """Interacts with api client interaction and pagination."""
-        self.params["page"] = self.page_size
-        next_page = 1
-        while next_page:
+        current_page = 1
+        has_more_pages = True
+
+        while has_more_pages:
+            self.params["page"] = current_page
+
             response = self.client.make_request(
                 self.http_method,
                 self.url_endpoint,
@@ -110,11 +114,19 @@ class BaseStream(ABC):
                 body=json.dumps(self.data_payload),
                 path=self.path
             )
-            raw_records = response.get(self.data_key, [])
-            next_page = response.get(self.next_page_key)
+            # Extract data from nested response structure
+            response_data = response.get("data", {})
+            raw_records = response_data.get(self.data_key, [])
+            pagination = response_data.get("pagination", {})
+            next_page = pagination.get("next") or response_data.get(self.next_page_key)
 
-            self.params[self.next_page_key] = next_page
             yield from raw_records
+
+            # Check if there are more pages to fetch
+            if next_page is None or not raw_records:
+                has_more_pages = False
+            else:
+                current_page += 1
 
     def write_schema(self) -> None:
         """
@@ -155,7 +167,6 @@ class BaseStream(ABC):
 
 class IncrementalStream(BaseStream):
     """Base Class for Incremental Stream."""
-
 
     def get_bookmark(self, state: dict, stream: str, key: Any = None) -> int:
         """A wrapper for singer.get_bookmark to deal with compatibility for
@@ -233,6 +244,7 @@ class FullTableStream(BaseStream):
         self.update_data_payload(parent_obj=parent_obj)
         with metrics.record_counter(self.tap_stream_id) as counter:
             for record in self.get_records():
+                record = self.modify_object(record, parent_obj)
                 transformed_record = transformer.transform(
                     record, self.schema, self.metadata
                 )
@@ -300,3 +312,10 @@ class ChildBaseStream(IncrementalStream):
 
         return self.bookmark_value
 
+
+class ChildFullTableStream(FullTableStream):
+    """Base Class for FullTable Child Stream."""
+
+    def get_url_endpoint(self, parent_obj=None):
+        """Prepare URL endpoint for child streams."""
+        return f"{self.client.base_url}/{self.path.format(parent_obj['id'])}"

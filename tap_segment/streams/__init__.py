@@ -13,8 +13,8 @@ from tap_segment.streams.usage_mtu_per_source_daily import UsageMtuPerSourceDail
 from tap_segment.streams.usage_mtu_workspace_daily import UsageMtuWorkspaceDaily
 from tap_segment.streams.destination_delivery_metrics_summary import DestinationDeliveryMetricsSummary
 from tap_segment.streams.audit_events import AuditEvents
-from tap_segment.streams.iam_users import IamUsers
-from tap_segment.streams.iam_groups import IamGroups
+from tap_segment.streams.users import Users
+from tap_segment.streams.groups import Groups
 from tap_segment.streams.transformations import Transformations
 
 STREAMS = {
@@ -33,8 +33,7 @@ STREAMS = {
     "usage_mtu_workspace_daily": UsageMtuWorkspaceDaily,
     "destination_delivery_metrics_summary": DestinationDeliveryMetricsSummary,
     "audit_events": AuditEvents,
-    "iam_users": IamUsers,
-    "iam_groups": IamGroups,
+    "users": Users,
+    "groups": Groups,
     "transformations": Transformations,
 }
-

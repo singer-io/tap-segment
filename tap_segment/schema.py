@@ -1,8 +1,10 @@
 import os
 import json
-import singer
 from typing import Dict, Tuple
+
+import singer
 from singer import metadata
+
 from tap_segment.streams import STREAMS
 
 LOGGER = singer.get_logger()
@@ -77,4 +79,3 @@ def get_schemas() -> Tuple[Dict, Dict]:
         field_metadata[stream_name] = mdata
 
     return schemas, field_metadata
-

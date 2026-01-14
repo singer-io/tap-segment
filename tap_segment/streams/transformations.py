@@ -1,5 +1,6 @@
 from tap_segment.streams.abstracts import FullTableStream
 
+
 class Transformations(FullTableStream):
     tap_stream_id = "transformations"
     key_properties = ["id"]
@@ -7,4 +8,3 @@ class Transformations(FullTableStream):
     replication_keys = []
     data_key = "transformations"
     path = "transformations"
-

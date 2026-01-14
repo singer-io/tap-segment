@@ -569,7 +569,7 @@
                 },
                 "regionEndpoints": {
                     "type": [
-                        "object",
+                        "array",
                         "null"
                     ],
                     "items": {

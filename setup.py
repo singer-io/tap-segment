@@ -11,8 +11,9 @@ setup(name="tap-segment",
       classifiers=["Programming Language :: Python :: 3 :: Only"],
       py_modules=["tap_segment"],
       install_requires=[
-        "singer-python==6.1.1",
-        "requests==2.32.4",
+        "singer-python==6.3.0",
+        "requests==2.32.5",
+        "backoff==2.2.1",
         "parameterized"
       ],
       entry_points="""
