@@ -40,9 +40,11 @@ class DestinationDeliveryMetricsSummary(ChildFullTableStream):
             yield record
 
     def modify_object(self, record, parent_record=None):
-        """Add destinationId from parent to the record."""
+        """Add destinationId and sourceId from parent to the record."""
         if parent_record:
             record["destinationId"] = parent_record['id']
+            if 'sourceId' in parent_record:
+                record["sourceId"] = parent_record['sourceId']
         return record
 
     def sync(
