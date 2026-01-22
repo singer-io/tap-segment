@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 import json
 from typing import Any, Dict, Tuple, List, Iterator
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 from singer import (
     Transformer,
     get_bookmark,
@@ -168,6 +170,9 @@ class BaseStream(ABC):
 class IncrementalStream(BaseStream):
     """Base Class for Incremental Stream."""
 
+    # Flag to indicate if stream uses period-based pagination (for usage streams)
+    use_period_pagination = False
+
     def get_bookmark(self, state: dict, stream: str, key: Any = None) -> int:
         """A wrapper for singer.get_bookmark to deal with compatibility for
         bookmark values or start values."""
@@ -190,7 +195,6 @@ class IncrementalStream(BaseStream):
             state, stream, key or self.replication_keys[0], value
         )
 
-
     def sync(
         self,
         state: Dict,
@@ -200,29 +204,53 @@ class IncrementalStream(BaseStream):
         """Implementation for `type: Incremental` stream."""
         bookmark_date = self.get_bookmark(state, self.tap_stream_id)
         current_max_bookmark_date = bookmark_date
-        self.update_params(updated_since=bookmark_date)
+
         self.update_data_payload(parent_obj=parent_obj)
         self.url_endpoint = self.get_url_endpoint(parent_obj)
 
+        # Setup periods for period-based pagination (usage streams) or single iteration for standard
+        if self.use_period_pagination:
+            # Parse bookmark date and create period list
+            bookmark_dt = datetime.strptime(bookmark_date.split('T')[0], '%Y-%m-%d')
+            today = datetime.utcnow().date()
+            current_period = bookmark_dt.replace(day=1)
+
+            periods = []
+            while current_period.date() <= today:
+                periods.append(current_period.strftime('%Y-%m-%d'))
+                current_period = current_period + relativedelta(months=1)
+        else:
+            # Standard incremental: single iteration with updated_since
+            periods = [None]
+
         with metrics.record_counter(self.tap_stream_id) as counter:
-            for record in self.get_records():
-                record = self.modify_object(record, parent_obj)
-                transformed_record = transformer.transform(
-                    record, self.schema, self.metadata
-                )
+            for period in periods:
+                # Set appropriate parameter based on stream type
+                if self.use_period_pagination:
+                    LOGGER.info(f"Fetching data for period: {period}")
+                    self.update_params(period=period)
+                else:
+                    self.update_params(updated_since=bookmark_date)
 
-                record_bookmark = transformed_record[self.replication_keys[0]]
-                if record_bookmark >= bookmark_date:
-                    if self.is_selected():
-                        write_record(self.tap_stream_id, transformed_record)
-                        counter.increment()
-
-                    current_max_bookmark_date = max(
-                        current_max_bookmark_date, record_bookmark
+                # Fetch all records for this period/query
+                for record in self.get_records():
+                    record = self.modify_object(record, parent_obj)
+                    transformed_record = transformer.transform(
+                        record, self.schema, self.metadata
                     )
 
-                    for child in self.child_to_sync:
-                        child.sync(state=state, transformer=transformer, parent_obj=record)
+                    record_bookmark = transformed_record[self.replication_keys[0]]
+                    if record_bookmark >= bookmark_date:
+                        if self.is_selected():
+                            write_record(self.tap_stream_id, transformed_record)
+                            counter.increment()
+
+                        current_max_bookmark_date = max(
+                            current_max_bookmark_date, record_bookmark
+                        )
+
+                        for child in self.child_to_sync:
+                            child.sync(state=state, transformer=transformer, parent_obj=record)
 
             state = self.write_bookmark(state, self.tap_stream_id, value=current_max_bookmark_date)
             return counter.value
