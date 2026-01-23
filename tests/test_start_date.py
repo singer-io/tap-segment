@@ -33,7 +33,6 @@ class SegmentStartDateTest(StartDateTest, SegmentBaseTest):
             "source_connected_destinations",
             "catalog_warehouses",
             "destinations",
-            ""
         }
         return self.expected_stream_names().difference(streams_to_exclude)
 
