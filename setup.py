@@ -14,7 +14,8 @@ setup(name="tap-segment",
         "singer-python==6.3.0",
         "requests==2.32.5",
         "backoff==2.2.1",
-        "parameterized"
+        "parameterized",
+        "python-dateutil"
       ],
       entry_points="""
           [console_scripts]

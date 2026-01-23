@@ -5,7 +5,7 @@ from tap_tester.base_suite_tests.bookmark_test import BookmarkTest
 class SegmentBookMarkTest(BookmarkTest, SegmentBaseTest):
     """Test tap sets a bookmark and respects it for the next sync of a
     stream."""
-    bookmark_format = "%Y-%m-%dT%H:%M:%S.%fZ"
+    bookmark_format = "%Y-%m-%dT%H:%M:%SZ"
     initial_bookmarks = {
         "bookmarks": {
             "usage_api_calls_workspace_daily": { "timestamp" : "2025-09-01T00:00:00Z"},

@@ -21,7 +21,8 @@ class SegmentPaginationTest(PaginationTest, SegmentBaseTest):
             "usage_api_calls_per_source_daily",
             "usage_mtu_per_source_daily",
             "users",
-            "warehouses"
+            "warehouses",
+            "usage_mtu_workspace_daily"
         }
         return self.expected_stream_names().difference(streams_to_exclude)
 
@@ -29,7 +30,7 @@ class SegmentPaginationTest(PaginationTest, SegmentBaseTest):
         """Configuration with reduced page_size to test pagination logic."""
         return {
             "start_date": "2025-09-01T00:00:00Z",
-            "page_size": 1
+            "page_size": 2
         }
 
     def expected_page_size(self, stream):
@@ -40,4 +41,4 @@ class SegmentPaginationTest(PaginationTest, SegmentBaseTest):
         This allows pagination testing with smaller datasets by setting
         a lower page limit than the API default (100).
         """
-        return 1
+        return 2

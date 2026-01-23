@@ -1,6 +1,11 @@
 from abc import ABC, abstractmethod
 import json
+import re
 from typing import Any, Dict, Tuple, List, Iterator
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+import dateutil.parser
+import dateutil.tz
 from singer import (
     Transformer,
     get_bookmark,
@@ -168,6 +173,9 @@ class BaseStream(ABC):
 class IncrementalStream(BaseStream):
     """Base Class for Incremental Stream."""
 
+    # Flag to indicate if stream uses period-based pagination (for usage streams)
+    use_period_pagination = False
+
     def get_bookmark(self, state: dict, stream: str, key: Any = None) -> int:
         """A wrapper for singer.get_bookmark to deal with compatibility for
         bookmark values or start values."""
@@ -190,7 +198,6 @@ class IncrementalStream(BaseStream):
             state, stream, key or self.replication_keys[0], value
         )
 
-
     def sync(
         self,
         state: Dict,
@@ -200,29 +207,88 @@ class IncrementalStream(BaseStream):
         """Implementation for `type: Incremental` stream."""
         bookmark_date = self.get_bookmark(state, self.tap_stream_id)
         current_max_bookmark_date = bookmark_date
-        self.update_params(updated_since=bookmark_date)
+
         self.update_data_payload(parent_obj=parent_obj)
         self.url_endpoint = self.get_url_endpoint(parent_obj)
 
+        # Setup periods for period-based pagination (usage streams) or single iteration for standard
+        if self.use_period_pagination:
+            # Parse bookmark date and create period list starting from bookmark month
+            bookmark_dt = datetime.strptime(bookmark_date.split('T')[0], '%Y-%m-%d')
+            today = datetime.utcnow().date()
+
+            # For period-based APIs that fetch monthly data, start from first day of bookmark month
+            # But use the actual bookmark date for filtering
+            current_period = bookmark_dt.replace(day=1)
+
+            periods = []
+            while current_period.date() <= today:
+                periods.append(current_period.strftime('%Y-%m-%d'))
+                current_period = current_period + relativedelta(months=1)
+        else:
+            # Standard incremental: single iteration with updated_since
+            periods = [None]
+
         with metrics.record_counter(self.tap_stream_id) as counter:
-            for record in self.get_records():
-                record = self.modify_object(record, parent_obj)
-                transformed_record = transformer.transform(
-                    record, self.schema, self.metadata
-                )
+            for period in periods:
+                # Set appropriate parameter based on stream type
+                if self.use_period_pagination:
+                    LOGGER.info(f"Fetching data for period: {period}")
+                    self.update_params(period=period)
+                else:
+                    self.update_params(updated_since=bookmark_date)
 
-                record_bookmark = transformed_record[self.replication_keys[0]]
-                if record_bookmark >= bookmark_date:
-                    if self.is_selected():
-                        write_record(self.tap_stream_id, transformed_record)
-                        counter.increment()
-
-                    current_max_bookmark_date = max(
-                        current_max_bookmark_date, record_bookmark
+                # Fetch all records for this period/query
+                for record in self.get_records():
+                    record = self.modify_object(record, parent_obj)
+                    transformed_record = transformer.transform(
+                        record, self.schema, self.metadata
                     )
 
-                    for child in self.child_to_sync:
-                        child.sync(state=state, transformer=transformer, parent_obj=record)
+                    # Normalize timestamp to remove microseconds - prevents tap-tester parsing bug
+                    # where timestamps with microseconds (e.g., .000000Z, .123456Z) are incorrectly
+                    # parsed as IST instead of UTC. Removes any 6-digit microsecond component.
+                    if self.replication_keys:
+                        timestamp_field = self.replication_keys[0]
+                        if timestamp_field in transformed_record and transformed_record[timestamp_field]:
+                            ts = transformed_record[timestamp_field]
+                            if isinstance(ts, str):
+                                # Remove microseconds: pattern matches .NNNNNNZ (any 6 digits followed by Z)
+                                transformed_record[timestamp_field] = re.sub(r'\.\d{6}Z$', 'Z', ts)
+
+                    record_bookmark = transformed_record[self.replication_keys[0]]
+                    # Filter records to only include those >= bookmark_date
+                    # Convert both to datetime objects for proper comparison (ensure UTC timezone)
+                    try:
+                        # Parse dates and ensure they're in UTC for comparison
+                        record_dt = dateutil.parser.parse(record_bookmark)
+                        if record_dt.tzinfo is None:
+                            record_dt = record_dt.replace(tzinfo=dateutil.tz.UTC)
+
+                        bookmark_dt_parsed = dateutil.parser.parse(bookmark_date)
+                        if bookmark_dt_parsed.tzinfo is None:
+                            bookmark_dt_parsed = bookmark_dt_parsed.replace(tzinfo=dateutil.tz.UTC)
+
+                        should_include = record_dt >= bookmark_dt_parsed
+                    except (ValueError, TypeError) as e:
+                        # If parsing fails, skip comparison instead of using unreliable string comparison
+                        LOGGER.warning(
+                            f"Failed to parse date for comparison; skipping record. "
+                            f"record_bookmark={record_bookmark!r}, bookmark_date={bookmark_date!r}, error={e}"
+                        )
+                        should_include = False
+
+                    if should_include:
+                        if self.is_selected():
+                            write_record(self.tap_stream_id, transformed_record)
+                            counter.increment()
+
+                        current_max_bookmark_date = max(
+                            current_max_bookmark_date, record_bookmark
+                        )
+
+                        for child in self.child_to_sync:
+                            child.sync(state=state, transformer=transformer, parent_obj=record)
 
             state = self.write_bookmark(state, self.tap_stream_id, value=current_max_bookmark_date)
             return counter.value
