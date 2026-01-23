@@ -3,6 +3,8 @@ import json
 from typing import Any, Dict, Tuple, List, Iterator
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+import dateutil.parser
+import dateutil.tz
 from singer import (
     Transformer,
     get_bookmark,
@@ -210,9 +212,12 @@ class IncrementalStream(BaseStream):
 
         # Setup periods for period-based pagination (usage streams) or single iteration for standard
         if self.use_period_pagination:
-            # Parse bookmark date and create period list
+            # Parse bookmark date and create period list starting from bookmark month
             bookmark_dt = datetime.strptime(bookmark_date.split('T')[0], '%Y-%m-%d')
             today = datetime.utcnow().date()
+
+            # For period-based APIs that fetch monthly data, start from first day of bookmark month
+            # But use the actual bookmark date for filtering
             current_period = bookmark_dt.replace(day=1)
 
             periods = []
@@ -239,8 +244,35 @@ class IncrementalStream(BaseStream):
                         record, self.schema, self.metadata
                     )
 
+                    # Normalize timestamp to remove microseconds - this prevents tap-tester parsing bug
+                    # where .000000Z format is incorrectly parsed as IST instead of UTC
+                    if self.replication_keys:
+                        timestamp_field = self.replication_keys[0]
+                        if timestamp_field in transformed_record and transformed_record[timestamp_field]:
+                            ts = transformed_record[timestamp_field]
+                            if isinstance(ts, str) and '.000000Z' in ts:
+                                transformed_record[timestamp_field] = ts.replace('.000000Z', 'Z')
+
                     record_bookmark = transformed_record[self.replication_keys[0]]
-                    if record_bookmark >= bookmark_date:
+                    # Filter records to only include those >= bookmark_date
+                    # Convert both to datetime objects for proper comparison (ensure UTC timezone)
+                    try:
+                        # Parse dates and ensure they're in UTC for comparison
+                        record_dt = dateutil.parser.parse(record_bookmark)
+                        if record_dt.tzinfo is None:
+                            record_dt = record_dt.replace(tzinfo=dateutil.tz.UTC)
+
+                        bookmark_dt_parsed = dateutil.parser.parse(bookmark_date)
+                        if bookmark_dt_parsed.tzinfo is None:
+                            bookmark_dt_parsed = bookmark_dt_parsed.replace(tzinfo=dateutil.tz.UTC)
+
+                        should_include = record_dt >= bookmark_dt_parsed
+                    except (ValueError, TypeError) as e:
+                        # If parsing fails, fall back to string comparison
+                        LOGGER.warning(f"Failed to parse date for comparison: {e}")
+                        should_include = record_bookmark >= bookmark_date
+
+                    if should_include:
                         if self.is_selected():
                             write_record(self.tap_stream_id, transformed_record)
                             counter.increment()

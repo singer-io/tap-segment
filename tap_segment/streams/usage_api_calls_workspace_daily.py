@@ -9,4 +9,3 @@ class UsageApiCallsWorkspaceDaily(IncrementalStream):
     data_key = "dailyWorkspaceAPICallsUsage"
     path = "usage/api-calls/daily"
     use_period_pagination = True
-

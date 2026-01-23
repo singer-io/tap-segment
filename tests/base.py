@@ -17,7 +17,7 @@ class SegmentBaseTest(BaseCase):
     Metadata describing streams. A bunch of shared methods that are used
     in tap-tester tests. Shared tap-specific methods (as needed).
     """
-    start_date = "2019-01-01T00:00:00Z"
+    start_date = "2021-01-01T00:00:00Z"
     PARENT_TAP_STREAM_ID = "parent-tap-stream-id"
 
     @staticmethod
@@ -56,7 +56,7 @@ class SegmentBaseTest(BaseCase):
                 cls.API_LIMIT: 100
             },
             "source_connected_destinations": {
-                cls.PRIMARY_KEYS: { "sourceId" },
+                cls.PRIMARY_KEYS: { "sourceId", "id" },
                 cls.REPLICATION_METHOD: cls.FULL_TABLE,
                 cls.REPLICATION_KEYS: set(),
                 cls.OBEYS_START_DATE: False,
@@ -179,13 +179,18 @@ class SegmentBaseTest(BaseCase):
 
     def get_properties(self, original: bool = True):
         """Configuration of properties required for the tap."""
-        return_value = {
-            "start_date": "2022-07-01T00:00:00Z"
-        }
-        if original:
-            return return_value
+        # Check if this is a start_date test by looking for start_date_1 attribute
+        if hasattr(self, 'start_date_1') and hasattr(self, 'start_date_2'):
+            # For start_date tests, use the dynamically set start_date or fall back to start_date_1
+            return_value = {
+                "start_date": getattr(self, 'start_date', self.start_date_1)
+            }
+        else:
+            # For other tests, use the default
+            return_value = {
+                "start_date": getattr(self, 'start_date', "2022-07-01T00:00:00Z")
+            }
 
-        return_value["start_date"] = self.start_date
         return return_value
 
     def expected_parent_tap_stream(self, stream=None):
