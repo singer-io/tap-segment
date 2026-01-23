@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import json
+import re
 from typing import Any, Dict, Tuple, List, Iterator
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
@@ -244,14 +245,16 @@ class IncrementalStream(BaseStream):
                         record, self.schema, self.metadata
                     )
 
-                    # Normalize timestamp to remove microseconds - this prevents tap-tester parsing bug
-                    # where .000000Z format is incorrectly parsed as IST instead of UTC
+                    # Normalize timestamp to remove microseconds - prevents tap-tester parsing bug
+                    # where timestamps with microseconds (e.g., .000000Z, .123456Z) are incorrectly
+                    # parsed as IST instead of UTC. Removes any 6-digit microsecond component.
                     if self.replication_keys:
                         timestamp_field = self.replication_keys[0]
                         if timestamp_field in transformed_record and transformed_record[timestamp_field]:
                             ts = transformed_record[timestamp_field]
-                            if isinstance(ts, str) and '.000000Z' in ts:
-                                transformed_record[timestamp_field] = ts.replace('.000000Z', 'Z')
+                            if isinstance(ts, str):
+                                # Remove microseconds: pattern matches .NNNNNNZ (any 6 digits followed by Z)
+                                transformed_record[timestamp_field] = re.sub(r'\.\d{6}Z$', 'Z', ts)
 
                     record_bookmark = transformed_record[self.replication_keys[0]]
                     # Filter records to only include those >= bookmark_date
