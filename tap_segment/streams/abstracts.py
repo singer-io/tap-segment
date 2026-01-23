@@ -268,9 +268,12 @@ class IncrementalStream(BaseStream):
 
                         should_include = record_dt >= bookmark_dt_parsed
                     except (ValueError, TypeError) as e:
-                        # If parsing fails, fall back to string comparison
-                        LOGGER.warning(f"Failed to parse date for comparison: {e}")
-                        should_include = record_bookmark >= bookmark_date
+                        # If parsing fails, skip comparison instead of using unreliable string comparison
+                        LOGGER.warning(
+                            f"Failed to parse date for comparison; skipping record. "
+                            f"record_bookmark={record_bookmark!r}, bookmark_date={bookmark_date!r}, error={e}"
+                        )
+                        should_include = False
 
                     if should_include:
                         if self.is_selected():
