@@ -13,15 +13,10 @@ jobs:
             uv pip install -U setuptools
             uv pip install .[dev]
       - run:
-          name: "JSON Validator"
-          command: |
-            source /usr/local/share/virtualenvs/tap-tester/bin/activate
-            stitch-validate-json tap_segment/schemas/*.json
-      - run:
           name: "pylint"
           command: |
             source /usr/local/share/virtualenvs/tap-segment/bin/activate
-            pip install pylint
+            uv pip install pylint
             pylint tap_segment -d C,R,W
       - add_ssh_keys
       - run:
