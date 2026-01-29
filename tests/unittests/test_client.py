@@ -21,14 +21,14 @@ class MockResponse:
     """Mocked standard HTTPResponse to test error handling."""
 
     def __init__(
-        self, status_code, resp = "", content=[""], headers=None, raise_error=True, text={}
+        self, status_code, resp = "", content=None, headers=None, raise_error=True, text=None
     ):
         self.json_data = resp
         self.status_code = status_code
-        self.content = content
+        self.content = [""] if content is None else content
         self.headers = headers
         self.raise_error = raise_error
-        self.text = text
+        self.text = {} if text is None else text
         self.reason = "error"
 
     def raise_for_status(self):
