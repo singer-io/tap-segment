@@ -12,17 +12,18 @@ class SegmentPaginationTest(PaginationTest, SegmentBaseTest):
         return "tap_tester_segment_pagination_test"
 
     def streams_to_test(self):
-        # Due to test data not present excluding streams
         streams_to_exclude = {
+            # No access to this stream
             "audit_events",
+            # Insufficient test data available for these streams
             "groups",
             "source_connected_warehouses",
             "transformations",
             "usage_api_calls_per_source_daily",
             "usage_mtu_per_source_daily",
+            "usage_mtu_workspace_daily",
             "users",
-            "warehouses",
-            "usage_mtu_workspace_daily"
+            "warehouses"
         }
         return self.expected_stream_names().difference(streams_to_exclude)
 

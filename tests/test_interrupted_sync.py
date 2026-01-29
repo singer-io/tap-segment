@@ -13,22 +13,25 @@ class SegmentInterruptedSyncTest(InterruptedSyncTest, SegmentBaseTest):
 
     def streams_to_test(self):
         streams_to_exclude = {
+            # No access to this stream
             "audit_events",
+            # Full table replication streams (no bookmark/interruption support)
             "catalog_destinations",
             "catalog_sources",
             "catalog_warehouses",
             "destination_subscriptions",
             "destinations",
-            "groups",
             "source_connected_destinations",
-            "source_connected_warehouses",
             "sources",
-            "transformations",
             "users",
-            "warehouses",
+            # Insufficient test data available for these streams
+            "destination_delivery_metrics_summary",
+            "groups",
+            "source_connected_warehouses",
+            "transformations",
             "usage_api_calls_per_source_daily",
             "usage_mtu_per_source_daily",
-            "destination_delivery_metrics_summary"
+            "warehouses"
         }
         return self.expected_stream_names().difference(streams_to_exclude)
 

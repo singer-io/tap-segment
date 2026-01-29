@@ -12,27 +12,27 @@ class SegmentStartDateTest(StartDateTest, SegmentBaseTest):
         return "tap_tester_segment_start_date_test"
 
     def streams_to_test(self):
-        # Due to test data not present excluding streams
         streams_to_exclude = {
+            # No access to this stream
             "audit_events",
-            "warehouses",
+            # Full table replication streams (start_date not applicable)
+            "catalog_destinations",
+            "catalog_sources",
+            "catalog_warehouses",
+            "destination_subscriptions",
+            "destinations",
+            "source_connected_destinations",
+            "sources",
+            "users",
+            # Insufficient test data available for these streams
+            "destination_delivery_metrics_summary",
+            "groups",
             "source_connected_warehouses",
+            "transformations",
             "usage_api_calls_per_source_daily",
             "usage_mtu_per_source_daily",
-            "groups",
-            "transformations",
-            #  full table streams
-            "catalog_destinations",
-            "users",
-            # "usage_api_calls_workspace_daily",
-            "catalog_sources",
-            "sources",
-            "destination_delivery_metrics_summary",
-            "destination_subscriptions",
             "usage_mtu_workspace_daily",
-            "source_connected_destinations",
-            "catalog_warehouses",
-            "destinations",
+            "warehouses"
         }
         return self.expected_stream_names().difference(streams_to_exclude)
 

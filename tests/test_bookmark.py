@@ -17,24 +17,25 @@ class SegmentBookMarkTest(BookmarkTest, SegmentBaseTest):
         return "tap_tester_segment_bookmark_test"
 
     def streams_to_test(self):
-        # Excluding below streams, as these streams use full table replication
-        # Excluding 'audit_events', 'usage_api_calls_per_source_daily' since it has no test data
         streams_to_exclude = {
+            # No access to this stream
             "audit_events",
+            # Full table replication streams (no bookmark support)
             "catalog_destinations",
             "catalog_sources",
             "catalog_warehouses",
-            "destination_delivery_metrics_summary",
             "destination_subscriptions",
             "destinations",
-            "groups",
             "source_connected_destinations",
-            "source_connected_warehouses",
             "sources",
+            "users",
+            # Insufficient test data available for these streams
+            "destination_delivery_metrics_summary",
+            "groups",
+            "source_connected_warehouses",
             "transformations",
             "usage_api_calls_per_source_daily",
             "usage_mtu_per_source_daily",
-            "users",
             "warehouses"
         }
         return self.expected_stream_names().difference(streams_to_exclude)

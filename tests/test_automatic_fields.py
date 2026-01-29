@@ -13,16 +13,16 @@ class SegmentAutomaticFields(MinimumSelectionTest, SegmentBaseTest):
         return "tap_tester_segment_automatic_fields_test"
 
     def streams_to_test(self):
-        # Due to test data not present excluding streams
         streams_to_exclude = {
+            # No access to this stream
             "audit_events",
+            # Insufficient test data available for these streams
             "destination_delivery_metrics_summary",
             "groups",
             "source_connected_warehouses",
+            "transformations",
             "usage_api_calls_per_source_daily",
             "usage_mtu_per_source_daily",
-            "usage_mtu_workspace_daily",
-            "transformations",
             "warehouses"
         }
         return self.expected_stream_names().difference(streams_to_exclude)
