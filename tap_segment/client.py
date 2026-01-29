@@ -53,18 +53,14 @@ class Client:
         self.request_timeout = float(config_request_timeout) if config_request_timeout else REQUEST_TIMEOUT
 
     def __enter__(self):
-        self.check_api_credentials()
         return self
 
     def __exit__(self, exception_type, exception_value, traceback):
         self._session.close()
 
-    def check_api_credentials(self) -> None:
-        pass
-
     def authenticate(self, headers: Dict, params: Dict) -> Tuple[Dict, Dict]:
         """Authenticates the request with the token"""
-        headers["Authorization"] = self.config["access_token"]
+        headers["Authorization"] = self.config["api_token"]
         return headers, params
 
     def make_request(
@@ -119,4 +115,3 @@ class Client:
                 raise ValueError(f"Unsupported method: {method}")
 
         return response.json()
-

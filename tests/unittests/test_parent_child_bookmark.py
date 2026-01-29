@@ -1,6 +1,8 @@
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
+
 from tap_segment.streams.abstracts import ParentBaseStream
+
 
 class ConcreteParentBaseStream(ParentBaseStream):
     @property
@@ -18,6 +20,7 @@ class ConcreteParentBaseStream(ParentBaseStream):
     @property
     def tap_stream_id(self):
         return "parent_stream"
+
 
 class TestSync(unittest.TestCase):
     @patch("tap_segment.streams.abstracts.metadata.to_map")
@@ -69,7 +72,7 @@ class TestSync(unittest.TestCase):
         mock_get_bookmark.assert_any_call(
             state, "child_stream_2", key="parent_stream_updated_at"
         )
-        self.assertEqual(result, 50) 
+        self.assertEqual(result, 50)
 
     @patch("tap_segment.streams.abstracts.BaseStream.is_selected", return_value=False)
     @patch("tap_segment.streams.abstracts.IncrementalStream.get_bookmark", side_effect = [75, 50])

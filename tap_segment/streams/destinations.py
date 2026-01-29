@@ -1,5 +1,6 @@
 from tap_segment.streams.abstracts import FullTableStream
 
+
 class Destinations(FullTableStream):
     tap_stream_id = "destinations"
     key_properties = ["id"]
@@ -7,4 +8,4 @@ class Destinations(FullTableStream):
     replication_keys = []
     data_key = "destinations"
     path = "destinations"
-
+    children = ["destination_delivery_metrics_summary", "destination_subscriptions"]
