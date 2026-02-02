@@ -19,20 +19,20 @@ class SegmentStartDateTest(StartDateTest, SegmentBaseTest):
             "catalog_destinations",
             "catalog_sources",
             "catalog_warehouses",
+            "destination_delivery_metrics_summary",
             "destination_subscriptions",
             "destinations",
-            "source_connected_destinations",
-            "sources",
-            "users",
-            # Insufficient test data available for these streams
-            "destination_delivery_metrics_summary",
             "groups",
+            "source_connected_destinations",
             "source_connected_warehouses",
+            "sources",
             "transformations",
+            "users",
+            "warehouses",
+            # Insufficient test data available for these streams
             "usage_api_calls_per_source_daily",
             "usage_mtu_per_source_daily",
-            "usage_mtu_workspace_daily",
-            "warehouses"
+            "usage_mtu_workspace_daily"
         }
         return self.expected_stream_names().difference(streams_to_exclude)
 

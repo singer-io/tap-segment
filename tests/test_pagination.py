@@ -15,15 +15,16 @@ class SegmentPaginationTest(PaginationTest, SegmentBaseTest):
         streams_to_exclude = {
             # No access to this stream
             "audit_events",
-            # Insufficient test data available for these streams
+            # Full table replication streams (insufficient test data)
             "groups",
             "source_connected_warehouses",
             "transformations",
+            "users",
+            "warehouses",
+            # Insufficient test data available for these streams
             "usage_api_calls_per_source_daily",
             "usage_mtu_per_source_daily",
-            "usage_mtu_workspace_daily",
-            "users",
-            "warehouses"
+            "usage_mtu_workspace_daily"
         }
         return self.expected_stream_names().difference(streams_to_exclude)
 
