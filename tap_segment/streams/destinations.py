@@ -3,7 +3,7 @@ from tap_segment.streams.abstracts import FullTableStream
 
 class Destinations(FullTableStream):
     tap_stream_id = "destinations"
-    key_properties = ["id"]
+    key_properties = ["id", "sourceId"]
     replication_method = "FULL_TABLE"
     replication_keys = []
     data_key = "destinations"
