@@ -28,7 +28,7 @@ class SegmentDiscoveryTest(DiscoveryTest, SegmentBaseTest):
         return "tap_tester_segment_discovery_test"
 
     def streams_to_test(self):
-        streams_to_exclude = {"source_connected_warehouses"}
+        streams_to_exclude = {}
         return self.expected_stream_names().difference(streams_to_exclude)
 
     def test_parent_stream(self):
