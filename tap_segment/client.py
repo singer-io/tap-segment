@@ -6,7 +6,7 @@ from requests import session
 from requests.exceptions import Timeout, ConnectionError, ChunkedEncodingError
 from singer import get_logger, metrics
 
-from tap_segment.exceptions import ERROR_CODE_EXCEPTION_MAPPING, SegmentError, SegmentBackoffError
+from tap_segment.exceptions import ERROR_CODE_EXCEPTION_MAPPING, SegmentError, SegmentBackoffError, SegmentRateLimitError
 
 LOGGER = get_logger()
 REQUEST_TIMEOUT = 300
@@ -95,6 +95,13 @@ class Client:
             timeout=self.request_timeout
         )
 
+    @backoff.on_exception(
+        wait_gen=backoff.expo,
+        exception=SegmentRateLimitError,
+        max_tries=6,
+        max_time=60,
+        jitter=None,
+    )
     @backoff.on_exception(
         wait_gen=backoff.expo,
         exception=(

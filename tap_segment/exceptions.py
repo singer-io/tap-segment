@@ -36,7 +36,7 @@ class SegmentUnprocessableEntityError(SegmentBackoffError):
     """class representing 422 status code."""
     pass
 
-class SegmentRateLimitError(SegmentBackoffError):
+class SegmentRateLimitError(SegmentError):
     """class representing 429 status code."""
     pass
 
