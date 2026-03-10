@@ -102,7 +102,6 @@ class TestClient(unittest.TestCase):
 
     @parameterized.expand([
         ["422 error", 422, MockResponse(422), SegmentUnprocessableEntityError, "The request content itself is not processable by the server."],
-        ["429 error", 429, MockResponse(429), SegmentRateLimitError, "The API rate limit for your organisation/application pairing has been exceeded."],
         ["500 error", 500, MockResponse(500), SegmentInternalServerError, "The server encountered an unexpected condition which prevented it from fulfilling the request."],
         ["501 error", 501, MockResponse(501), SegmentNotImplementedError, "The server does not support the functionality required to fulfill the request."],
         ["502 error", 502, MockResponse(502), SegmentBadGatewayError, "Server received an invalid response."],
@@ -119,6 +118,18 @@ class TestClient(unittest.TestCase):
             expected_error_message = (f"HTTP-error-code: {error_code}, Error: {error_message}")
             self.assertEqual(str(e.exception), expected_error_message)
             self.assertEqual(mock_request.call_count, 5)
+
+    @patch("time.sleep")
+    def test_make_request_429_rate_limit_with_retry(self, mock_sleep):
+        """429 rate-limit errors use a dedicated backoff with max_tries=6, jitter=None."""
+        mock_response = MockResponse(429)
+        with patch.object(self.client._session, "request", return_value=mock_response) as mock_request:
+            with self.assertRaises(SegmentRateLimitError) as e:
+                self.client._Client__make_request("GET", "https://api.example.com/resource")
+
+            expected_error_message = "HTTP-error-code: 429, Error: The API rate limit for your organisation/application pairing has been exceeded."
+            self.assertEqual(str(e.exception), expected_error_message)
+            self.assertEqual(mock_request.call_count, 6)
 
     @parameterized.expand([
         ["ConnectionResetError", ConnectionResetError],
